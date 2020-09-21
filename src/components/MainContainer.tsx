@@ -1,4 +1,5 @@
 import React from 'react';
+import { AnalyzeLexical } from '../compiler/lexical';
 import Grid from './Grid';
 
 interface MainComponentState {
@@ -19,6 +20,7 @@ export default class MainComponent extends React.Component<any, MainComponentSta
   }
 
   private process() {
+    AnalyzeLexical(this.state.input);
     this.setState({
       parsed: this.state.input.trim().split(' ').flatMap(e => e.split('\n').flatMap(se => se.split('\t'))).filter(e => !!e),
       copy: this.state.input

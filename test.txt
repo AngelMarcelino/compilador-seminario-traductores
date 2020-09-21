@@ -1,0 +1,16 @@
+void main () {
+  int x = 0;
+  float y = 1;
+  string z = 3;
+  char q = 3;
+  if ( x < 3 && x > 4 && x <= 4 || x >= 5 || x == 4 && x != 45) {
+    doSomething(x, y, z);
+    while (true) {
+      print(hola);
+    }
+  } else {
+    y = x + 1;
+    x = x + 2 * 4 / 43 - 5;
+  }
+  return 0;
+}
