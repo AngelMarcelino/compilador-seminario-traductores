@@ -1,11 +1,13 @@
 import React from 'react';
 import { AnalyzeLexical } from '../compiler/lexical';
+import { Token } from '../models/token';
 import Grid from './Grid';
 
 interface MainComponentState {
   copy: string;
   input: string;
   parsed: string[];
+  tokens: Token[]
 } 
 
 export default class MainComponent extends React.Component<any, MainComponentState> {
@@ -15,15 +17,17 @@ export default class MainComponent extends React.Component<any, MainComponentSta
     this.state = {
       copy: '',
       input: '',
-      parsed: []
+      parsed: [],
+      tokens: []
     };
   }
 
   private process() {
-    AnalyzeLexical(this.state.input);
+    const result = AnalyzeLexical(this.state.input);
     this.setState({
       parsed: this.state.input.trim().split(' ').flatMap(e => e.split('\n').flatMap(se => se.split('\t'))).filter(e => !!e),
-      copy: this.state.input
+      copy: result.errors.join('\n'),
+      tokens: result.tokens
     });
   }
 
@@ -50,7 +54,7 @@ export default class MainComponent extends React.Component<any, MainComponentSta
           </div>
         </div>
         <div style={{clear: 'both'}}>
-          <Grid tokens={this.state.parsed}/>
+          <Grid tokens={this.state.tokens}/>
         </div>
       </div>
     )

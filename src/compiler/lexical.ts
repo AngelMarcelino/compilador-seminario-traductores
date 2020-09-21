@@ -25,14 +25,14 @@ const zeroStateMap: {[key: string]: () => WholeTokenInstructions} = {
   '}': () => states('}', 0, generateToken('llave_cerrada', '}')),
   '+': () => states('+', 0, generateToken('opSuma', '+')),
   '-': () => states('-', 0, generateToken('opSuma', '-')),
-  '*': () => states('*', 0, generateToken('opMultiplication', '*')),
-  '/': () => states('/', 0, generateToken('opMultiplication', '/')),
-  '=': () => states('==', -2, generateToken('OpRelacional ', '==')),
-  '<': () => states('<=', -2, generateToken('OpRelacional ', '<=')),
-  '>': () => states('>=', -2, generateToken('OpRelacional ', '>=')),
+  '*': () => states('*', 0, generateToken('opMultiplicacion', '*')),
+  '/': () => states('/', 0, generateToken('opMultiplicacion', '/')),
+  '=': () => states('==', -2, generateToken('OpRelacional', '==')),
+  '<': () => states('<=', -2, generateToken('OpRelacional', '<=')),
+  '>': () => states('>=', -2, generateToken('OpRelacional', '>=')),
   '!': () => states('!=', -1, generateToken('OpRelacional', '!=')),
-  '|': () => states('||', -1, generateToken('opLogico ', '||')),
-  '&': () => states('&&', -1, generateToken('opLogico ', '&&')),
+  '|': () => states('||', -1, generateToken('opLogico', '||')),
+  '&': () => states('&&', -1, generateToken('opLogico', '&&')),
   'i': () => states('if', 2, generateToken('if', 'if')),
   'w': () => states('while', 1, generateToken('while', 'while')),
   'r': () => states('return', 1, generateToken('return', 'return')),
@@ -45,9 +45,9 @@ const zeroStateMap: {[key: string]: () => WholeTokenInstructions} = {
 }
 
 const singleCharNames: {[key: string]: () => Token} = {
-  '=': () => generateToken('asignacion ', '='),
-  '<': () => generateToken('OpRelacional ', '<'),
-  '>': () => generateToken('OpRelacional ', '>'),
+  '=': () => generateToken('asignacion', '='),
+  '<': () => generateToken('OpRelacional', '<'),
+  '>': () => generateToken('OpRelacional', '>'),
 }
 const ERROR_CODE = -1;
 const SINGLE_CHAR_TOKEN = -2
@@ -56,7 +56,12 @@ const IDENTIFIER_STATE = 1;
 const IF_INT_STATE = 2;
 const CONST_STATE = 3;
 
-export function AnalyzeLexical(input: string): Token[] {
+export interface LexicalResult {
+  tokens: Token[],
+  errors: string[]
+}
+
+export function AnalyzeLexical(input: string): LexicalResult {
   input = input + '$';
   const tokens: Token[]  = [];
   const errors: string[] = [];
@@ -103,6 +108,11 @@ export function AnalyzeLexical(input: string): Token[] {
               tokens.push(generateToken('tipo_de_dato', 'int'));
               i+=3;
               continue;
+            } else {
+              state = IDENTIFIER_STATE;
+              tokenSoFar = char;
+              i++;
+              continue;
             }
           }
         }
@@ -119,6 +129,11 @@ export function AnalyzeLexical(input: string): Token[] {
           continue;
         } else if (isBlank(char)) {
           i++;
+          continue;
+        } else {
+          errors.push('caracter inesperado en ' + i + " '" + char +"'");
+          i++;
+          continue;
         }
       }
     }
@@ -135,6 +150,12 @@ export function AnalyzeLexical(input: string): Token[] {
       }
     } else if (state == CONST_STATE) {
       if (!isDigit(char)) {
+        if (isIdentifierChar(char)) {
+          errors.push('Identificador no puede empezar con numero. Indice: ' + i + " '" + char +"' " + tokenSoFar);
+          tokenSoFar = '';
+          state = INITIAL_STATE;
+          continue;
+        }
         state = 0;
         tokens.push(generateToken('constante', tokenSoFar));
         tokenSoFar = '';
@@ -147,7 +168,7 @@ export function AnalyzeLexical(input: string): Token[] {
     }
   }
   console.log(tokens);
-  return tokens;
+  return {tokens, errors};
 }
 
 function isAlpha(char: string): boolean {
@@ -171,4 +192,23 @@ function notIdentifierCharacter(char: string) {
 function isBlank(char: string) {
   return char === ' ' || char == '\n' || char == '\t';
 }
+
+
+
+// include<stdio.h> 
+  
+// using namespace std; 
+// int main() 
+// { 
+//     // a = 5(00000101), b = 9(00001001) 
+//     unsigned char a = 5, b = 9;  
+  
+//     // The result is 00000010  
+       
+//     printf(a>>1 = %d\n, a>>1); 
+    
+//     // The result is 00000100 
+//     printf(b>>1 = d\n, b>>1);   
+//     return 0; 
+// }
 
