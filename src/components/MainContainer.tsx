@@ -1,6 +1,8 @@
 import React from 'react';
 import { AnalyzeLexical } from '../compiler/lexical';
+import { sintacticAnalysis } from '../compiler/sintactical';
 import { Token } from '../models/token';
+import { getFromTableAt } from '../resources/GR2slrTablebien';
 import Grid from './Grid';
 
 interface MainComponentState {
@@ -24,9 +26,17 @@ export default class MainComponent extends React.Component<any, MainComponentSta
 
   private process() {
     const result = AnalyzeLexical(this.state.input);
+    const sintacticResult = sintacticAnalysis(result.tokens);
+    console.log(sintacticResult);
+    let copy = '';
+    if (result.errors && result.errors.length) {
+      copy = result.errors.join('\n');
+    } else {
+      copy = sintacticResult == -1 ? 'Sintaxis incorrecta' : 'Sintaxis correcta';
+    }
     this.setState({
       parsed: this.state.input.trim().split(' ').flatMap(e => e.split('\n').flatMap(se => se.split('\t'))).filter(e => !!e),
-      copy: result.errors.join('\n'),
+      copy: copy,
       tokens: result.tokens
     });
   }
