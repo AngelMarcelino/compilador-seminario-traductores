@@ -1,5 +1,6 @@
 import React from 'react';
 import { AnalyzeLexical } from '../compiler/lexical';
+import { semanticAnalysis } from '../compiler/semantic';
 import { sintacticAnalysis } from '../compiler/sintactical';
 import { Token } from '../models/token';
 import { getFromTableAt } from '../resources/GR2slrTablebien';
@@ -32,7 +33,10 @@ export default class MainComponent extends React.Component<any, MainComponentSta
     if (result.errors && result.errors.length) {
       copy = result.errors.join('\n');
     } else {
-      copy = sintacticResult == -1 ? 'Sintaxis incorrecta' : 'Sintaxis correcta';
+      copy = !sintacticResult ? 'Sintaxis incorrecta' : 'Sintaxis correcta';
+    }
+    if (sintacticResult) {
+      semanticAnalysis(sintacticResult);
     }
     this.setState({
       parsed: this.state.input.trim().split(' ').flatMap(e => e.split('\n').flatMap(se => se.split('\t'))).filter(e => !!e),

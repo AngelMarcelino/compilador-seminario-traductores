@@ -35,3 +35,9 @@ void main () {
   }
   return 0;
 }
+
+
+int main(int x, int y, int z) {
+  a=1;
+  a = 2;
+}

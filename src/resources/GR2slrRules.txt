@@ -1,6 +1,6 @@
 Programa -> Definiciones
 Definiciones -> ''
-Definicio nes -> Definicion Definiciones
+Definiciones -> Definicion Definiciones
 Definicion -> DefVar
 Definicion -> DefFunc
 DefVar -> tipo id ListaVar ;
