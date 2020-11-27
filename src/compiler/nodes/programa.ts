@@ -1,4 +1,5 @@
 import { reduceRight } from "lodash";
+import { SymbolTable } from "../symbol-table";
 import { Definiciones } from "./definiciones";
 import { Node } from "./nodo";
 
@@ -9,5 +10,9 @@ export class Programa extends Node {
   constructor(numberOfRule: number, reducedData: any[]) {
     super(numberOfRule);
     this.definiciones = reducedData[DEFINICIONES_INDEX];
+  }
+
+  validaSemantica(): boolean {
+    return !!this.definiciones?.validaSemantica();
   }
 }

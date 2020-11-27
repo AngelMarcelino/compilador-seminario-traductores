@@ -1,3 +1,5 @@
+import { errors } from "../error-colector";
+import { SymbolTable } from "../symbol-table";
 import { DefLocal } from "./def-local";
 import { Node } from "./nodo";
 
@@ -11,5 +13,18 @@ export class DefLocales extends Node {
     super(ruleNumber);
     this.defLocal = reducedData[DEF_LOCAL_INDEX];
     this.siguiente = reducedData[SIGUIENTE_INDEX];
+  }
+  validaSemantica(parentScope: SymbolTable) {
+    let isValid = true;
+    let nodo: DefLocales | undefined = this;
+    while(typeof(nodo) !== "number" && nodo != undefined) {
+      try {
+        isValid = isValid && nodo.defLocal.validaSemantica(parentScope);
+      } catch(exception) {
+        errors.push(exception.message);
+      }
+      nodo = this.siguiente;
+    }
+    return isValid;
   }
 }

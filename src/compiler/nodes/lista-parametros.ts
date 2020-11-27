@@ -8,7 +8,7 @@ const ID_INDEX = 4;
 const NEXT_PARAM_LIST = 6;
 
 export class ListaParametros extends Node {
-  tipo: PrimitiveTypes;
+  tipo: Token;
   identifier: Token;
   siguiente: ListaParametros | null;
   constructor(numberOfRule: number, reducedData: any[]) {

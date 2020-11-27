@@ -1,4 +1,5 @@
 import { extend } from "lodash";
+import { SymbolTable } from "../symbol-table";
 import { DefLocales } from "./def-locales";
 import { Node } from "./nodo";
 
@@ -9,5 +10,8 @@ export class BloqFunc extends Node {
   constructor(ruleNumber: number, reducedata: any[]) {
     super(ruleNumber);
     this.defLocales = reducedata[DEF_LOCALES];
+  }
+  validaSemantica(parentScope: SymbolTable) {
+    return this.defLocales.validaSemantica(parentScope);
   }
 }

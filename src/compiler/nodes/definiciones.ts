@@ -1,4 +1,7 @@
 import { setupMaster } from "cluster";
+import { exception } from "console";
+import { errors } from "../error-colector";
+import { SymbolTable, SymbolTableRecord } from "../symbol-table";
 import { Definicion } from "./definicion";
 import { Node } from "./nodo";
 
@@ -6,6 +9,7 @@ const DEFINICION_INDEX = 0;
 const DEFINICIONES_INDEX = 2;
 
 export class Definiciones extends Node {
+  scope: SymbolTable;
   definicion: Definicion;
   siguiente: Definiciones | undefined;
   constructor(numberOfRule: number, reducedData: any[]) {
@@ -14,5 +18,20 @@ export class Definiciones extends Node {
     if (typeof (reducedData[DEFINICIONES_INDEX]) !== "number") {
       this.siguiente = reducedData[DEFINICIONES_INDEX];
     }
+    this.scope = new SymbolTable(undefined);
+  }
+  validaSemantica(): boolean {
+    let isValid = true;
+    let node: Definiciones | undefined = this;
+    while (typeof(node) !== "number" && node != undefined) {
+      try {
+        this.definicion.validaSemantica(this.scope);
+      } catch (exception) {
+        isValid = false;
+        errors.push(exception.message);
+      }
+      node = this.siguiente;
+    }
+    return isValid;
   }
 }

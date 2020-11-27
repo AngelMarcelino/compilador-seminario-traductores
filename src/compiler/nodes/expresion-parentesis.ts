@@ -1,3 +1,4 @@
+import { SymbolTable } from "../symbol-table";
 import { Expresion } from "./expresion";
 import { Node } from "./nodo";
 
@@ -8,5 +9,9 @@ export class ExpresionParentesis extends Node {
   constructor(ruleNumber: number, reducedData: any[]) {
     super(ruleNumber);
     this.expresion = reducedData[EXPRESION_INDEX];
+  }
+
+  validaSemantica(parentScope: SymbolTable): boolean {
+    return this.expresion.validaSemantica(parentScope) != undefined;
   }
 }

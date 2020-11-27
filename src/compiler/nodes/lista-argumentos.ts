@@ -1,11 +1,11 @@
-import { Expression } from "typescript";
+import { Expresion } from "./expresion";
 import { Node } from "./nodo";
 
 const EXPRESION_INDEX = 2;
 const LISTA_INDEX = 4;
 
 export class ListaArgumentos extends Node {
-  expresion: Expression;
+  expresion: Expresion;
   siguiente: ListaArgumentos;
   constructor(ruleNumber: number, reducedData: any[]) {
     super(ruleNumber);

@@ -1,4 +1,5 @@
 import { Token } from "../../models/token";
+import { SymbolTable } from "../symbol-table";
 import { BloqFunc } from "./bloqfunc";
 import { Node } from "./nodo";
 import { Parametros } from "./parametros";
@@ -13,11 +14,19 @@ export class DefFunc extends Node {
   id: Token;
   parametros: Parametros;
   bloque: BloqFunc;
+  scope: SymbolTable;
   constructor(ruleNumber: number, reducedData: any[]) {
     super(ruleNumber);
     this.tipo = reducedData[TIPO_INDEX];
     this.id = reducedData[ID_INDEX];
     this.parametros = reducedData[PARAMETROS_INDEX];
     this.bloque = reducedData[BLOQUE_FUNC_INDEX];
+    this.scope = new SymbolTable(undefined);
+  }
+  validaSemantica(parentScope: SymbolTable): boolean {
+    this.scope.parent = parentScope;
+    const listaTipos = this.parametros.validaSemantica(this.scope);
+    parentScope.add(this.id.lexeme, this.tipo.lexeme, listaTipos);
+    return this.bloque.validaSemantica(this.scope);
   }
 }

@@ -1,3 +1,4 @@
+import { SymbolTable } from '../symbol-table';
 import { Else } from './else';
 import { Expresion } from './expresion';
 import { Node } from './nodo';
@@ -15,5 +16,9 @@ export class SentenciaIf extends Sentencia {
     this.condition = reducedData[CONDICION_INDEX];
     this.sentencia = reducedData[SENTENCIA_INDEX];
     this.else = reducedData[ELSE_INDEX];
+  }
+
+  validaSemantica(parentScope: SymbolTable): boolean {
+    return this.condition.validaSemantica(parentScope) != undefined && this.sentencia.validaSemantica(parentScope) && this.else.validaSemantica(parentScope);
   }
 }

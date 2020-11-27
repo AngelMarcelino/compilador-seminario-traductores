@@ -1,3 +1,4 @@
+import { SymbolTable } from "../symbol-table";
 import { Node } from "./nodo";
 import { Sentencias } from "./sentencias";
 
@@ -8,5 +9,9 @@ export class Bloque extends Node {
   constructor(ruleNumber: number, reducedData: any[]) {
     super(ruleNumber);
     this.sentencias = reducedData[SENTENCIAS_INDEX];
+  }
+
+  validaSemantica(parentScope: SymbolTable) {
+    return this.sentencias.validaSemantica(parentScope);
   }
 }

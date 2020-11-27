@@ -1,3 +1,4 @@
+import { SymbolTable } from "../symbol-table";
 import { DefVar } from "./defvar";
 import { Node } from "./nodo";
 import { Sentencia } from "./sentencia";
@@ -14,6 +15,14 @@ export class DefLocal extends Node {
       this.defVar = definition;
     } else if (definition instanceof Sentencia) {
       this.sentencia = definition;
+    }
+  }
+
+  validaSemantica(parentScope: SymbolTable): boolean {
+    if (this.defVar) {
+      return this.defVar.validaSemantica(parentScope);
+    } else {
+      return this.sentencia?.validaSemantica(parentScope) || false;
     }
   }
 }
