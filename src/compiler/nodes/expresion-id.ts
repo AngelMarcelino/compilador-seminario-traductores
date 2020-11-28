@@ -14,7 +14,10 @@ export class ExpresionId extends Node {
 
   validaSemantica(parentScope: SymbolTable): string | undefined {
     const symbol = parentScope.search(this.id.lexeme);
-    errors.push('Variable "' + this.id.lexeme + '" no definida');
+    if (!symbol) {
+      errors.push('Variable "' + this.id.lexeme + '" no definida');
+      return undefined;
+    }
     return symbol?.tipo || undefined;
   }
 }

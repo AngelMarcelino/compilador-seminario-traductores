@@ -19,6 +19,14 @@ export class SentenciaIf extends Sentencia {
   }
 
   validaSemantica(parentScope: SymbolTable): boolean {
-    return this.condition.validaSemantica(parentScope) != undefined && this.sentencia.validaSemantica(parentScope) && this.else.validaSemantica(parentScope);
+    let conditionResult = this.condition.validaSemantica(parentScope) != undefined;
+    let sentenciaResult = true;
+    if (typeof(this.sentencia) !== "number" && this.sentencia != undefined)
+      this.sentencia.validaSemantica(parentScope);
+    let elseResult = true;
+    if (typeof(this.else) !== "number" && this.sentencia != undefined) {
+      elseResult = this.else.validaSemantica(parentScope);
+    }
+    return conditionResult && sentenciaResult && elseResult;
   }
 }

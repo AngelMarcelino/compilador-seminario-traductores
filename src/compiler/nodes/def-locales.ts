@@ -19,11 +19,12 @@ export class DefLocales extends Node {
     let nodo: DefLocales | undefined = this;
     while(typeof(nodo) !== "number" && nodo != undefined) {
       try {
-        isValid = isValid && nodo.defLocal.validaSemantica(parentScope);
+        let result = nodo.defLocal.validaSemantica(parentScope);
+        isValid = isValid && result;
       } catch(exception) {
         errors.push(exception.message);
       }
-      nodo = this.siguiente;
+      nodo = nodo.siguiente;
     }
     return isValid;
   }

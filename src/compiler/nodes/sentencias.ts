@@ -19,12 +19,12 @@ export class Sentencias extends Node {
     let node: Sentencias | undefined = this;
     let isValid = true;
     while (typeof(node) !== "number" && node != undefined) {
-      node = this.siguiente;
       try {
         isValid = isValid && node.sentencia.validaSemantica(parentScope)
       } catch(ex) {
         errors.push(ex.message);
       }
+      node = this.siguiente;
     }
     return isValid;
   }

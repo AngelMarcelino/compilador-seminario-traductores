@@ -41,3 +41,28 @@ int main(int x, int y, int z) {
   a=1;
   a = 2;
 }
+
+int main() {
+  int a;
+  a=1;
+  a = 2;
+  main(a, b);
+}
+
+int main() {
+  int a;
+  a=1;
+  a = 2;
+  main();
+  if (a < 2) {main();}
+}
+
+int double(int a){return a * 2;}
+
+int main() {
+  int a;
+  a=1;
+  a = 2;
+  main();
+  if (a < 2) {main();}
+}

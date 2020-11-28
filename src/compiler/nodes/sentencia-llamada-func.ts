@@ -1,3 +1,4 @@
+import { errors } from '../error-colector';
 import { SymbolTable } from '../symbol-table';
 import { LlamadaFunc } from './llamada-func';
 import { Node } from './nodo';
@@ -13,6 +14,17 @@ export class SentenciaLlamadaFuncion extends Sentencia {
   }
 
   validaSemantica(parentScope: SymbolTable): boolean {
-    return this.llamada.getArgumentTypes(parentScope).some(v => v == 'undefined' || v == undefined);
+    const id = this.llamada.id;
+    const symbolRegistry = parentScope.search(id.lexeme);
+    if (!symbolRegistry) {
+      errors.push('No se ha definido la funcion ' + id.lexeme);
+      return false;
+    }
+    const argumentTypeList = this.llamada.getArgumentTypes(parentScope);
+    if (symbolRegistry.tipoDeArgumentos.join('') == argumentTypeList.join('')) {
+      return true;
+    }
+    errors.push('No coinciden los parametros');
+    return false;
   }
 }

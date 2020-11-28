@@ -1,4 +1,5 @@
 import React from 'react';
+import { errors } from '../compiler/error-colector';
 import { AnalyzeLexical } from '../compiler/lexical';
 import { semanticAnalysis } from '../compiler/semantic';
 import { sintacticAnalysis } from '../compiler/sintactical';
@@ -37,6 +38,7 @@ export default class MainComponent extends React.Component<any, MainComponentSta
     }
     if (sintacticResult) {
       semanticAnalysis(sintacticResult);
+      console.log(errors);
     }
     this.setState({
       parsed: this.state.input.trim().split(' ').flatMap(e => e.split('\n').flatMap(se => se.split('\t'))).filter(e => !!e),

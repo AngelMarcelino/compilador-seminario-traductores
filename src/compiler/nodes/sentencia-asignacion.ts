@@ -20,7 +20,7 @@ export class SentenciaAsignacion extends Sentencia {
   validaSemantica(parentScope: SymbolTable): boolean {
     const idSymbol = parentScope.search(this.id.lexeme);
     if (!idSymbol) {
-      errors.push('No se ha declarado ' + this.id);
+      errors.push('No se ha declarado ' + this.id.lexeme);
       return false;
     }
     const type = this.expresion.validaSemantica(parentScope);

@@ -25,7 +25,10 @@ export class DefFunc extends Node {
   }
   validaSemantica(parentScope: SymbolTable): boolean {
     this.scope.parent = parentScope;
-    const listaTipos = this.parametros.validaSemantica(this.scope);
+    let listaTipos: string[] = [];
+    if (typeof(this.parametros) !== "number" && this.parametros != undefined) {
+      listaTipos = this.parametros.validaSemantica(this.scope);
+    }
     parentScope.add(this.id.lexeme, this.tipo.lexeme, listaTipos);
     return this.bloque.validaSemantica(this.scope);
   }

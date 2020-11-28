@@ -1,3 +1,4 @@
+import { Argumentos } from "./argumentos";
 import { BloqFunc } from "./bloqfunc";
 import { Bloque } from "./bloque";
 import { DefLocal } from "./def-local";
@@ -57,7 +58,7 @@ export const NodeObjectMap: {[key: number]: any} = {
   26: Else,
   27: Bloque,
   28: null,
-  29: Bloque,
+  29: Argumentos,
   30: null,
   31: ListaArgumentos,
   32: ExpresionLlamadaFunc,

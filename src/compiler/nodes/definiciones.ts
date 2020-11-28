@@ -25,12 +25,12 @@ export class Definiciones extends Node {
     let node: Definiciones | undefined = this;
     while (typeof(node) !== "number" && node != undefined) {
       try {
-        this.definicion.validaSemantica(this.scope);
+        node.definicion.validaSemantica(this.scope);
       } catch (exception) {
         isValid = false;
         errors.push(exception.message);
       }
-      node = this.siguiente;
+      node = node.siguiente;
     }
     return isValid;
   }
