@@ -117,7 +117,7 @@ export function AnalyzeLexical(input: string): LexicalResult {
           }
         }
       } else {
-        if (isDigit(char)) {
+        if (isDigit(char) || (char == '.' && isDigit(chars[i+1]))) {
           state = CONST_STATE;
           i++;
           tokenSoFar = char;
@@ -154,6 +154,10 @@ export function AnalyzeLexical(input: string): LexicalResult {
           errors.push('Identificador no puede empezar con numero. Indice: ' + i + " '" + char +"' " + tokenSoFar);
           tokenSoFar = '';
           state = INITIAL_STATE;
+          continue;
+        } else if (char == '.' && isDigit(chars[i+1])) {
+          tokenSoFar += char;
+          i++;
           continue;
         }
         state = 0;
