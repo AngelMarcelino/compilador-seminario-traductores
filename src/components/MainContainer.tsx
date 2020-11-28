@@ -27,6 +27,7 @@ export default class MainComponent extends React.Component<any, MainComponentSta
   }
 
   private process() {
+    errors.clear();
     const result = AnalyzeLexical(this.state.input);
     const sintacticResult = sintacticAnalysis(result.tokens);
     console.log(sintacticResult);
@@ -39,6 +40,11 @@ export default class MainComponent extends React.Component<any, MainComponentSta
     if (sintacticResult) {
       semanticAnalysis(sintacticResult);
       console.log(errors);
+      if (errors.errors.length > 0) {
+        copy = copy + '\nSemantica incorrecta:\n\n-' + errors.errors.join('\n-');
+      } else {
+        copy += '\nSemantica correcta';
+      }
     }
     this.setState({
       parsed: this.state.input.trim().split(' ').flatMap(e => e.split('\n').flatMap(se => se.split('\t'))).filter(e => !!e),

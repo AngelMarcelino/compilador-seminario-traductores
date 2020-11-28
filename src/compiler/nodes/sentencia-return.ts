@@ -1,3 +1,4 @@
+import { errors } from '../error-colector';
 import { SymbolTable } from '../symbol-table';
 import { Expresion } from './expresion';
 import { Node } from './nodo';
@@ -13,6 +14,11 @@ export class SentenciaReturn extends Sentencia {
   }
 
   validaSemantica(parentScope: SymbolTable): boolean {
-    return this.expresion.validaSemantica(parentScope) != undefined;
+    let tipoExpresionRetorno = this.expresion.validaSemantica(parentScope);
+    if (tipoExpresionRetorno != parentScope.returnType) {
+      errors.push('El tipo de la expresión de retorno no coincide con el tipo de la función');
+      return false;
+    }
+    return true;
   }
 }

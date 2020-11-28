@@ -15,7 +15,7 @@ export class ExpresionId extends Node {
   validaSemantica(parentScope: SymbolTable): string | undefined {
     const symbol = parentScope.search(this.id.lexeme);
     if (!symbol) {
-      errors.push('Variable "' + this.id.lexeme + '" no definida');
+      errors.push('Variable "' + this.id.lexeme + '" no declarada en "'  + parentScope.scopeName + '"');
       return undefined;
     }
     return symbol?.tipo || undefined;

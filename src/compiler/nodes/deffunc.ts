@@ -21,7 +21,7 @@ export class DefFunc extends Node {
     this.id = reducedData[ID_INDEX];
     this.parametros = reducedData[PARAMETROS_INDEX];
     this.bloque = reducedData[BLOQUE_FUNC_INDEX];
-    this.scope = new SymbolTable(undefined);
+    this.scope = new SymbolTable(undefined, this.tipo.lexeme, this.id.lexeme);
   }
   validaSemantica(parentScope: SymbolTable): boolean {
     this.scope.parent = parentScope;

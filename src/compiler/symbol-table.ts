@@ -6,11 +6,15 @@ export class SymbolTableRecord {
 }
 
 export class SymbolTable {
+  scopeName: string;
+  returnType: string;
   tableRecords: SymbolTableRecord[];
   parent: SymbolTable | undefined;
-  constructor(parent: SymbolTable | undefined) {
+  constructor(parent: SymbolTable | undefined, returnType = '', scopeName = 'global') {
     this.tableRecords = [];
     this.parent = parent;
+    this.returnType = returnType;
+    this.scopeName = scopeName;
   }
 
   search(identifier: string): SymbolTableRecord | undefined {

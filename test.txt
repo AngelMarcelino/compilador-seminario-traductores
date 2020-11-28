@@ -66,3 +66,18 @@ int main() {
   main();
   if (a < 2) {main();}
 }
+
+int s;
+
+float double(float f){return f * 2.23;}
+
+int main() {
+  float a;
+  int b;
+  a = double(s);
+  a=1.0;
+  a = 2.0 + 2.1;
+  main();
+  if (a < 2.0) {double(2.0);}
+}
+
